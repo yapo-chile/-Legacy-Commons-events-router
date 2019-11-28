@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.mpi-internal.com/Yapo/goms/pkg/usecases"
+	"github.mpi-internal.com/Yapo/events-router/pkg/usecases"
 )
 
 const (

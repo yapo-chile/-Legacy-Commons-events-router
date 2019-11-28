@@ -1,27 +1,56 @@
-# goms
+# events-router
 
 <!-- Badger start badges -->
-[![Status of the build](https://badger.spt-engprod-pro.mpi-internal.com/badge/travis/Yapo/goms)](https://travis.mpi-internal.com/Yapo/goms)
-[![Testing Coverage](https://badger.spt-engprod-pro.mpi-internal.com/badge/coverage/Yapo/goms)](https://reports.spt-engprod-pro.mpi-internal.com/#/Yapo/goms?branch=master&type=push&daterange&daterange)
-[![Style/Linting issues](https://badger.spt-engprod-pro.mpi-internal.com/badge/issues/Yapo/goms)](https://reports.spt-engprod-pro.mpi-internal.com/#/Yapo/goms?branch=master&type=push&daterange&daterange)
-[![Badger](https://badger.spt-engprod-pro.mpi-internal.com/badge/flaky_tests/Yapo/goms)](https://databulous.spt-engprod-pro.mpi-internal.com/test/flaky/Yapo/goms)
-[![Badger](https://badger.spt-engprod-pro.mpi-internal.com/badge/quality_index/Yapo/goms)](https://databulous.spt-engprod-pro.mpi-internal.com/quality/repo/Yapo/goms)
-[![Badger](https://badger.spt-engprod-pro.mpi-internal.com/badge/engprod/Yapo/goms)](https://github.mpi-internal.com/spt-engprod/badger)
+[![Status of the build](https://badger.spt-engprod-pro.mpi-internal.com/badge/travis/Yapo/events-router)](https://travis.mpi-internal.com/Yapo/events-router)
+[![Testing Coverage](https://badger.spt-engprod-pro.mpi-internal.com/badge/coverage/Yapo/events-router)](https://reports.spt-engprod-pro.mpi-internal.com/#/Yapo/events-router?branch=master&type=push&daterange&daterange)
+[![Style/Linting issues](https://badger.spt-engprod-pro.mpi-internal.com/badge/issues/Yapo/events-router)](https://reports.spt-engprod-pro.mpi-internal.com/#/Yapo/events-router?branch=master&type=push&daterange&daterange)
+[![Badger](https://badger.spt-engprod-pro.mpi-internal.com/badge/flaky_tests/Yapo/events-router)](https://databulous.spt-engprod-pro.mpi-internal.com/test/flaky/Yapo/events-router)
+[![Badger](https://badger.spt-engprod-pro.mpi-internal.com/badge/quality_index/Yapo/events-router)](https://databulous.spt-engprod-pro.mpi-internal.com/quality/repo/Yapo/events-router)
+[![Badger](https://badger.spt-engprod-pro.mpi-internal.com/badge/engprod/Yapo/events-router)](https://github.mpi-internal.com/spt-engprod/badger)
 <!-- Badger end badges -->
 
-Goms is the official golang microservice template for Yapo.
+events-router needs a description here.
 
-## A few rules
+## Checklist: Is my service ready?
 
-* Goms was built following [Clean Architecture](https://www.amazon.com/Clean-Architecture-Craftsmans-Software-Structure/dp/0134494164) so, please, familiarize yourself with it and let's code great code!
+* [ ] Configure your github repository
+  - Open https://github.mpi-internal.com/Yapo/events-router/settings
+  - Features: Wikis, Restrict editing, Issues, Projects
+  - Merge button: Only allow merge commits
+  - GitHub Pages: master branch / docs folder
+  - Open https://github.mpi-internal.com/Yapo/events-router/settings/branches
+  - Default branch: master
+  - Protected branches: choose master
+  - Protect this branch
+    + Require pull request reviews
+    + Require status checks before merging
+      - Require branches to be up to date
+      - Quality gate code analysis
+      - Quality gate coverage
+      - Travis-ci
+    + Include administrators
+* [ ] Enable TravisCI
+  - Go to your service's github settings -> Hooks & Services -> Add Service -> Travis CI
+  - Fill in the form with the credentials you obtain from https://travis.mpi-internal.com/profile/
+  - Sync your repos and organizations on Travis
+  - Create a pull request and make a push on it
+  - The push should trigger a build. If it didn't, ensure that it is enabled on the travis service list
+  - Enjoy! This should automatically enable quality-gate reports and a few other goodies
+* [ ] Get your first PR merged
+  - Master should be a protected branch, so the only way to get commits there is via pull request
+  - Once the travis build is ok, and you got approval merge it back to master
+  - This will allow for the broken badges on top of this readme to display correctly
+  - Should them not display after some time, please report it
+* [ ] Enable automatic deployment
+  - Have your service created and deployed on a stack on Rancher
+  - Modify `rancher/deploy/*.json` files to reflect new names
+  - Follow the instructions on https://github.mpi-internal.com/Yapo/rancher-deploy
+* [ ] Delete this section
+  - It's time for me to leave, I've done my part
+  - It's time for you to start coding your new service and documenting your endpoints below
+  - Seriously, document your endpoints and delete this section
 
-* Goms has great [test coverage](https://quality-gate.mpi-internal.com/#/Yapo/goms) and [examples](https://github.mpi-internal.com/Yapo/goms/search?l=Go&q=func+Test&type=&utf8=%E2%9C%93) of how good testing can be done. Please honor the effort and keep your test quality in the top tier.
-
-* Goms is not a silver bullet. If your service clearly doesn't fit in this template, let's have a [conversation](mailto:dev@schibsted.cl)
-
-* [README.md](README.md) is the entrypoint for new users of your service. Keep it up to date and get others to proof-read it.
-
-## How to run the service
+## How to run events-router
 
 * Create the dir: `~/go/src/github.mpi-internal.com/Yapo`
 
@@ -31,13 +60,13 @@ Goms is the official golang microservice template for Yapo.
 
   ```
   $ cd ~/go/src/github.mpi-internal.com/Yapo
-  $ git clone git@github.mpi-internal.com:Yapo/goms.git
+  $ git clone git@github.mpi-internal.com:Yapo/events-router.git
   ```
 
 * On the top dir execute the make instruction to clean and start:
 
   ```
-  $ cd goms
+  $ cd events-router
   $ make start
   ```
 
@@ -81,50 +110,6 @@ Goms is the official golang microservice template for Yapo.
   ```
   $ make checkstyle
   ```
-  
-
-## Creating a new service
-
-* Create a repo for your new service on: https://github.mpi-internal.com/Yapo
-* Rename your goms dir to your service name:
-  ```
-  $ mv goms YourService
-  ```
-* Update origin: 
-  ```
-  # https://help.github.com/articles/changing-a-remote-s-url/
-  $ git remote set-url origin git@github.mpi-internal.com:Yapo/YourService.git
-  ```
-
-* Replace every goms reference to your service's name:
-  ```
-  $ git grep -l goms | xargs sed -i.bak 's/goms/yourservice/g'
-  $ find . -name "*.bak" | xargs rm
-  ```
-
-* Go through the code examples and implement your service
-  ```
-  $ git grep -il fibonacci
-  README.md
-  cmd/goms/main.go
-  pkg/domain/fibonacci.go
-  pkg/domain/fibonacci_test.go
-  pkg/interfaces/handlers/fibonacci.go
-  pkg/interfaces/handlers/fibonacci_test.go
-  pkg/interfaces/loggers/fibonacciInteractorLogger.go
-  pkg/interfaces/repository/fibonacci.go
-  pkg/interfaces/repository/fibonacci_test.go
-  pkg/usecases/getNthFibonacci.go
-  pkg/usecases/getNthFibonacci_test.go
-  ```
-
-* Enable TravisCI
-  - Go to your service's github settings -> Hooks & Services -> Add Service -> Travis CI
-  - Fill in the form with the credentials you obtain from https://travis.mpi-internal.com/profile/
-  - Sync your repos and organizations on Travis
-  - Make a push on your service
-  - The push should trigger a build. If it didn't ensure that it is enabled on the travis service list
-  - Enjoy! This should automatically enable quality-gate reports and a few other goodies
 
 ## Endpoints
 ### GET  /api/v1/healthcheck
@@ -146,49 +131,5 @@ No request parameters
 }
 ```
 
-### GET  /api/v1/fibonacci
-Implements the Fibonacci Numbers with Clean Architecture
-
-#### Request
-{
-	"n": int - Ask for the nth fibonacci number
-}
-
-#### Response
-
-```javascript
-200 OK
-{
-	"Result": int - The nth fibonacci number
-}
-```
-
-#### Error response
-```javascript
-400 Bad Request
-{
-	"ErrorMessage": string - Explaining what went wrong
-}
-```
-
-### GET  /api/v1/user/basic-data?mail=[user_mail]
-Returns the essential user data. It is in communication with the Profile Microservice. The main goal of this endpoint is to be used for a basic Pact Test.
-
-#### Request
-
-No additional parameters
-
-#### Response
-
-```javascript
-200 OK
-{
-    "fullname": Full name of the user,
-    "cellphone": The user´s cellphone,
-    "gender": The user gender,
-    "country": The country where the user lives (Currently only Chile is Available),
-    "region": The region where the user lives,
-    "commune": The commune where the user lives,
-}
-### Contact
+## Contact
 dev@schibsted.cl

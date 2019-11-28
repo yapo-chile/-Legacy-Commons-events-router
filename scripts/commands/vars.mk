@@ -20,8 +20,8 @@ export REPORT_ARTIFACTS=reports
 
 # APP variables
 # This variables are for the use of your microservice. This variables must be updated each time you are creating a new microservice
-export APPNAME=goms
-export APPFOLDER=goms
+export APPNAME=events-router
+export APPFOLDER=events-router
 export YO=`whoami`
 export SERVICE_PORT=8080
 export SERVICE_HOST=:localhost

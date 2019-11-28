@@ -1,6 +1,6 @@
 {
 	"consumer": {
-		"name": "goms"
+		"name": "events-router"
 	},
 	"provider": {
 		"name": "profile-ms"

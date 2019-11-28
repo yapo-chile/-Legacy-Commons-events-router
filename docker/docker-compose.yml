@@ -4,7 +4,7 @@ volumes:
   etcd: {}
 # CLONE-RCONF REMOVE END
 services:
-  goms:
+  events-router:
     image: ${DOCKER_IMAGE}:local
     ports:
      - "${DOCKER_PORT}:8080"

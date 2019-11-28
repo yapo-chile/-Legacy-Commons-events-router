@@ -9,7 +9,7 @@ import (
 	"github.com/pact-foundation/pact-go/dsl"
 	"github.com/pact-foundation/pact-go/types"
 
-	"github.mpi-internal.com/Yapo/goms/pkg/infrastructure"
+	"github.mpi-internal.com/Yapo/events-router/pkg/infrastructure"
 )
 
 var dir, _ = os.Getwd()
@@ -31,7 +31,7 @@ func TestProvider(t *testing.T) {
 	var conf PactConf
 	infrastructure.LoadFromEnv(&conf)
 	var pact = &dsl.Pact{
-		Consumer: "goms",
+		Consumer: "events-router",
 		Provider: "profile-ms",
 		Port:     6666,
 	}
@@ -54,10 +54,10 @@ func TestProvider(t *testing.T) {
 		}
 		pactPublisher := &dsl.Publisher{}
 		err = pactPublisher.Publish(types.PublishRequest{
-			PactURLs:        []string{"./pacts/goms.json"},
+			PactURLs:        []string{"./pacts/events-router.json"},
 			PactBroker:      conf.BrokerHost + ":" + conf.BrokerPort,
 			ConsumerVersion: "1.0.0",
-			Tags:            []string{"goms"},
+			Tags:            []string{"events-router"},
 		})
 		if err != nil {
 			fmt.Printf("Error with the Pact Broker server. Error %+v\n", err)

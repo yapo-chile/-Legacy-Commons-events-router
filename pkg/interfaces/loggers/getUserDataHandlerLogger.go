@@ -1,7 +1,7 @@
 package loggers
 
 import (
-	"github.mpi-internal.com/Yapo/goms/pkg/interfaces/handlers"
+	"github.mpi-internal.com/Yapo/events-router/pkg/interfaces/handlers"
 )
 
 type getUserDataHandlerPrometheusDefaultLogger struct {

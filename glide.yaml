@@ -1,4 +1,4 @@
-package: github.mpi-internal.com/Yapo/goms
+package: github.mpi-internal.com/Yapo/events-router
 import:
 - package: github.com/Yapo/goutils
 - package: github.com/Yapo/logger
