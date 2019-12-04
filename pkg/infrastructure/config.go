@@ -60,12 +60,11 @@ type GomsClientConf struct {
 
 // EtcdConf configure how to read configuration from remote Etcd service
 type EtcdConf struct {
-	Host       string `env:"HOST" envDefault:"http://lb:2397"`
-	LastUpdate string `env:"LAST_UPDATE" envDefault:"/last_update"`
-	Prefix     string `env:"PREFIX" envDefault:"/v2/keys"`
+	Host   string `env:"HOST" envDefault:"http://lb:2397"`
+	Router string `env:"LAST_UPDATE" envDefault:"/yapo-events/router/conf.json"`
+	Prefix string `env:"PREFIX" envDefault:"/v2/keys"`
 }
 
-// ProfileConf holds configuration to send http request to profile
 // CorsConf holds cors headers
 type CorsConf struct {
 	Enabled bool   `env:"ENABLED" envDefault:"false"`
@@ -100,11 +99,30 @@ func (chc *CacheConf) InitEtag() int64 {
 	return chc.Etag
 }
 
-// ProfileConf holds configuration to send http request to Profile
-type ProfileConf struct {
-	Host           string `env:"HOST" envDefault:"http://profile:8080"`
-	UserDataPath   string `env:"USER_DATA_PATH" envDefault:"/api/v1/internal/user?"`
-	UserDataTokens string `env:"USER_DATA_TOKENS" envDefault:"tokens=%s"`
+// KafkaConsumerConf holds configurations to connect and consume from kafka
+type KafkaConsumerConf struct {
+	Host            string   `env:"HOST"`
+	Port            int      `env:"PORT" envDefault:"9092"`
+	Topics          []string `env:"TOPICS"`
+	GroupID         string   `env:"GROUP_ID" envDefault:"0"`
+	TimeOut         int      `env:"TIME_OUT" envDefault:"100000"`
+	OffsetReset     string   `env:"OFFSET_RESET" envDefault:"earliest"`
+	ChannelEnable   bool     `env:"CHANNEL_ENABLE" envDefault:"true"`
+	RebalanceEnable bool     `env:"REBALANCE_ENABLE" envDefault:"true"`
+	PartitionEOF    bool     `env:"PARTITION_EOF" envDefault:"false"`
+}
+
+// KafkaProducerConf holds configurations to connect and produce to kafka
+type KafkaProducerConf struct {
+	Host              string `env:"HOST"`
+	Port              int    `env:"PORT" envDefault:"9092"`
+	Acks              string `env:"ACKS" envDefault:"1"`
+	CompressionType   string `env:"COMPRESSION_TYPE" envDefault:"none"`
+	Retries           int    `env:"RETRIES" envDefault:"10"`
+	DeliveryTimeoutMS int    `env:"DELIVERY_TIMEOUT_MS" envDefault:"120000"`
+	LingerMS          int    `env:"LINGER_MS" envDefault:"0"`
+	RequestTimeoutMS  int    `env:"REQUEST_TIMEOUT_MS" envDefault:"30000"`
+	EnableIdempotence bool   `env:"ENABLE_IDEMPOTENCE" envDefault:"false"`
 }
 
 // Config holds all configuration for the service
@@ -118,7 +136,8 @@ type Config struct {
 	EtcdConf           EtcdConf           `env:"ETCD_"`
 	CorsConf           CorsConf           `env:"CORS_"`
 	CacheConf          CacheConf          `env:"CACHE_"`
-	ProfileConf        ProfileConf        `env:"PROFILE_"`
+	KafkaConsumerConf  KafkaConsumerConf  `env:"KAFKA_CONSUMER_"`
+	KafkaProducerConf  KafkaProducerConf  `env:"KAFKA_PRODUCER_"`
 }
 
 // LoadFromEnv loads the config data from the environment variables
@@ -180,6 +199,9 @@ func load(conf reflect.Value, envTag, envDefault string) {
 				}
 			case string:
 				reflectedConf.Set(reflect.ValueOf(value))
+			case []string:
+				values := strings.Split(value, ",")
+				reflectedConf.Set(reflect.ValueOf(values))
 			case bool:
 				if value, err := strconv.ParseBool(value); err == nil {
 					reflectedConf.Set(reflect.ValueOf(value))

@@ -17,6 +17,18 @@ tools=(
     github.com/golangci/golangci-lint/cmd/golangci-lint
 )
 
+ # install librdkafka
+if [ "$(id -nu)" != "root" ]; then
+    echoTitle "Installing librdkafka"
+    git clone https://github.com/edenhill/librdkafka.git
+    cd librdkafka
+    ./configure --prefix /usr
+    make
+    sudo make install
+    cd ..
+    rm -rf librdkafka
+fi
+
 echoTitle "Installing missing tools"
 # Install missed tools
 for tool in ${tools[@]}; do

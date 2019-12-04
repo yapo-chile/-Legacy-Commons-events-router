@@ -7,6 +7,9 @@ import (
 
 	"github.mpi-internal.com/Yapo/events-router/pkg/infrastructure"
 	"github.mpi-internal.com/Yapo/events-router/pkg/interfaces/handlers"
+	"github.mpi-internal.com/Yapo/events-router/pkg/interfaces/loggers"
+	"github.mpi-internal.com/Yapo/events-router/pkg/interfaces/repository"
+	"github.mpi-internal.com/Yapo/events-router/pkg/usecases"
 )
 
 func main() {
@@ -30,7 +33,7 @@ func main() {
 	fmt.Printf("Setting up logger\n")
 	logger, err := infrastructure.MakeYapoLogger(&conf.LoggerConf,
 		prometheus.NewEventsCollector(
-			"events-router_service_events_total",
+			"events_router_service_events_total",
 			"events tracker counter for events-router service",
 		),
 	)
@@ -45,31 +48,72 @@ func main() {
 
 	// HealthHandler
 	var healthHandler handlers.HealthHandler
-	// Initialize remote conf example
-	lastUpdate, errRconf := infrastructure.NewRconf(
+
+	remoteConfig, errRconf := infrastructure.NewRconf(
 		conf.EtcdConf.Host,
-		conf.EtcdConf.LastUpdate,
+		conf.EtcdConf.Router,
 		conf.EtcdConf.Prefix,
 		logger,
 	)
 
 	if errRconf != nil {
 		logger.Error("Error loading remote conf")
+		os.Exit(1)
 	} else {
-		logger.Info("Remote Conf Updated at %s", lastUpdate.Content.Node.Value)
+		logger.Info("Remote Conf loaded")
 	}
-	// CLONE-RCONF REMOVE END
 
-	useBrowserCache := handlers.Cache{
-		MaxAge:  conf.CacheConf.MaxAge,
-		Etag:    conf.CacheConf.Etag,
-		Enabled: conf.CacheConf.Enabled,
+	kafkaProducer, err := infrastructure.NewKafkaProducer(
+		fmt.Sprintf("%s:%d", conf.KafkaProducerConf.Host,
+			conf.KafkaProducerConf.Port),
+		conf.KafkaProducerConf.Acks,
+		conf.KafkaProducerConf.CompressionType,
+		conf.KafkaProducerConf.Retries,
+		conf.KafkaProducerConf.DeliveryTimeoutMS,
+		conf.KafkaProducerConf.LingerMS,
+		conf.KafkaProducerConf.RequestTimeoutMS,
+		conf.KafkaProducerConf.EnableIdempotence,
+	)
+	if err != nil {
+		logger.Error("Error starting kafka producer: %+v", err)
+		os.Exit(1)
 	}
+	shutdownSequence.Push(kafkaProducer)
+
+	kafkaConsumer, err := infrastructure.NewKafkaConsumer(
+		conf.KafkaConsumerConf.Host,
+		conf.KafkaConsumerConf.Port,
+		conf.KafkaConsumerConf.GroupID,
+		conf.KafkaConsumerConf.OffsetReset,
+		conf.KafkaConsumerConf.RebalanceEnable,
+		conf.KafkaConsumerConf.ChannelEnable,
+		conf.KafkaConsumerConf.PartitionEOF,
+		conf.KafkaConsumerConf.TimeOut,
+		conf.KafkaConsumerConf.Topics,
+		logger,
+	)
+	if err != nil {
+		logger.Error("Error starting kafka consumer: %+v", err)
+		os.Exit(1)
+	}
+	shutdownSequence.Push(kafkaConsumer)
+
+	interactor := &usecases.DisptachInteractor{
+		Producer: repository.MakeProducer(kafkaProducer),
+		Router:   repository.MakeRouter(remoteConfig),
+		Logger:   loggers.MakeDispatchInteractorlogger(logger),
+	}
+
+	dispatcherHandler := handlers.NewDispatchEventHandler(
+		kafkaConsumer,
+		interactor,
+		loggers.MakeDispatchEventHandlerlogger(logger),
+	)
+
 	// Setting up router
 	maker := infrastructure.RouterMaker{
 		Logger:        logger,
 		Cors:          conf.CorsConf,
-		Cache:         useBrowserCache,
 		WrapperFuncs:  []infrastructure.WrapperFunc{prometheus.TrackHandlerFunc},
 		WithProfiling: conf.ServiceConf.Profiling,
 		Routes: infrastructure.Routes{
@@ -89,15 +133,15 @@ func main() {
 	}
 
 	router := maker.NewRouter()
-
 	server := infrastructure.NewHTTPServer(
 		fmt.Sprintf("%s:%d", conf.Runtime.Host, conf.Runtime.Port),
 		router,
 		logger,
 	)
-	shutdownSequence.Push(server)
 	logger.Info("Starting request serving")
 	go server.ListenAndServe()
+	go kafkaConsumer.Listen()
+	go dispatcherHandler.Consume()
 	shutdownSequence.Wait()
 	logger.Info("Server exited normally")
 

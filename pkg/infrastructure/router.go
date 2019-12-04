@@ -8,7 +8,7 @@ import (
 	"github.com/gorilla/context"
 	"github.mpi-internal.com/Yapo/events-router/pkg/interfaces/handlers"
 	"github.mpi-internal.com/Yapo/events-router/pkg/interfaces/loggers"
-	"gopkg.in/gorilla/mux.v1"
+	mux "gopkg.in/gorilla/mux.v1"
 )
 
 // Route stands for an http endpoint description

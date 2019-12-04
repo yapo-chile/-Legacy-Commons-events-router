@@ -1,29 +1,57 @@
-hash: c8030d9369802ac0d03fe574aef797dde7d986700538bdfef6118b92d94e0359
-updated: 2019-10-18T10:33:12.219508-03:00
+hash: 38fe2a533c42d84ece79c061b521f8e48ad7524ce10b398c2b78492e21b10594
+updated: 2019-12-03T16:58:36.240663-03:00
 imports:
 - name: github.com/beorn7/perks
   version: 37c8de3658fcb183f997c4e13e8337516ab753e6
   subpackages:
   - quantile
+- name: github.com/confluentinc/confluent-kafka-go
+  version: f696f02dcbb04d95b103c5b848bb15f749a996f7
+  subpackages:
+  - kafka
 - name: github.com/davecgh/go-spew
   version: d8f796af33cc11cb798c1aaeb27a4ebc5099927d
   subpackages:
   - spew
+- name: github.com/eapache/go-resiliency
+  version: ef9aaa7ea8bd2448429af1a77cf41b2b3b34bdd6
+  subpackages:
+  - breaker
+- name: github.com/eapache/go-xerial-snappy
+  version: 776d5712da21bc4762676d614db1d8a64f4238b0
+- name: github.com/eapache/queue
+  version: 093482f3f8ce946c05bcba64badd2c82369e084d
 - name: github.com/golang/protobuf
   version: 1680a479a2cfb3fa22b972af7e36d0a0fde47bf8
   subpackages:
   - proto
+- name: github.com/golang/snappy
+  version: 2a8bb927dd31d8daada140a5d09578521ce5c36a
 - name: github.com/gorilla/context
   version: 8559d4a6b87e4f517ec1846eb90a192b8748cc89
+- name: github.com/hashicorp/go-uuid
+  version: f32f5fe8d6a86bfd2a4f58998002f7b0b91cf78f
+- name: github.com/jcmturner/gofork
+  version: dc7c13fece037a4a36e2b3c69db4991498d30692
+  subpackages:
+  - encoding/asn1
+  - x/crypto/pbkdf2
+- name: github.com/klauspost/compress
+  version: b87d2c411722993723a9de80b3510411f15ae0a8
+  subpackages:
+  - fse
+  - huff0
+  - snappy
+  - zstd
+  - zstd/internal/xxhash
 - name: github.com/matttproud/golang_protobuf_extensions
   version: c182affec369e30f25d3eb8cd8a478dee585ae7d
   subpackages:
   - pbutil
-- name: github.com/pact-foundation/pact-go
-  version: 5a1cefb77149fae263f80cb9c84a781a319e9b92
+- name: github.com/pierrec/lz4
+  version: 9085dacd1e1eca033047a5514195779360363ced
   subpackages:
-  - dsl
-  - types
+  - internal/xxh32
 - name: github.com/pmezard/go-difflib
   version: 5d4384ee4fb2527b0a1256a821ebfc92f91efefc
   subpackages:
@@ -49,8 +77,8 @@ imports:
   subpackages:
   - internal/fs
   - internal/util
-- name: github.com/sony/gobreaker
-  version: 21dbfda1fc5e89b91bd0c835a91c31fe4d461e88
+- name: github.com/rcrowley/go-metrics
+  version: cac0b30c2563378d434b5af411844adff8e32960
 - name: github.com/stretchr/objx
   version: 35313a95ee26395aa17d366c71a2ccf788fa69b6
 - name: github.com/stretchr/testify
@@ -68,12 +96,74 @@ imports:
   version: 8563913313114ecb543b197533daa93aedb513e5
 - name: github.com/Yapo/logger
   version: 91855e974718b8c68dd00e63817568f1f512a4cc
+- name: golang.org/x/crypto
+  version: e3636079e1a4c1f337f212cc5cd2aca108f6c900
+  subpackages:
+  - md4
+  - pbkdf2
+- name: golang.org/x/net
+  version: e147a9138326bc0e9d4e179541ffd8af41cff8a9
+  subpackages:
+  - internal/socks
+  - proxy
 - name: golang.org/x/sys
   version: 543471e840be449c53d44b32c7adf1261ad67e37
   subpackages:
   - windows
 - name: gopkg.in/gorilla/mux.v1
   version: 00bdffe0f3c77e27d2cf6f5c70232a2d3e4d9c15
+- name: gopkg.in/jcmturner/aescts.v1
+  version: f6abebb3171c4c1b1fea279cb7c7325020a26290
+- name: gopkg.in/jcmturner/dnsutils.v1
+  version: 13eeb8d49ffb74d7a75784c35e4d900607a3943c
+- name: gopkg.in/jcmturner/gokrb5.v7
+  version: 363118e62befa8a14ff01031c025026077fe5d6d
+  subpackages:
+  - asn1tools
+  - client
+  - config
+  - credentials
+  - crypto
+  - crypto/common
+  - crypto/etype
+  - crypto/rfc3961
+  - crypto/rfc3962
+  - crypto/rfc4757
+  - crypto/rfc8009
+  - gssapi
+  - iana
+  - iana/addrtype
+  - iana/adtype
+  - iana/asnAppTag
+  - iana/chksumtype
+  - iana/errorcode
+  - iana/etypeID
+  - iana/flags
+  - iana/keyusage
+  - iana/msgtype
+  - iana/nametype
+  - iana/patype
+  - kadmin
+  - keytab
+  - krberror
+  - messages
+  - pac
+  - types
+- name: gopkg.in/jcmturner/rpc.v1
+  version: 99a8ce2fbf8b8087b6ed12a37c61b10f04070043
+  subpackages:
+  - mstypes
+  - ndr
+- name: gopkg.in/Shopify/sarama.v1
+  version: 675b0b1ff204c259877004140a540d6adf38db17
 - name: gopkg.in/yaml.v2
   version: f221b8435cfb71e54062f6c6e99e9ade30b124d5
-testImports: []
+testImports:
+- name: github.com/hashicorp/logutils
+  version: 0dc08b1671f34c4250ce212759ebd880f743d883
+- name: github.com/pact-foundation/pact-go
+  version: 5a1cefb77149fae263f80cb9c84a781a319e9b92
+  subpackages:
+  - dsl
+  - types
+  - utils
