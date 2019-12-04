@@ -4,12 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"regexp"
-	"time"
 
 	"github.mpi-internal.com/Yapo/events-router/pkg/infrastructure"
 	"github.mpi-internal.com/Yapo/events-router/pkg/interfaces/handlers"
-
 )
 
 func main() {
@@ -48,10 +45,6 @@ func main() {
 
 	// HealthHandler
 	var healthHandler handlers.HealthHandler
-	// To handle http connections you can use an httpHandler
-	HTTPHandler := infrastructure.NewHTTPHandler(logger)
-
-	// CLONE-RCONF REMOVE START
 	// Initialize remote conf example
 	lastUpdate, errRconf := infrastructure.NewRconf(
 		conf.EtcdConf.Host,
