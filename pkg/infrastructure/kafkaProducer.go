@@ -2,6 +2,7 @@ package infrastructure
 
 import (
 	"encoding/json"
+	"fmt"
 
 	"github.com/Yapo/logger"
 	"github.com/confluentinc/confluent-kafka-go/kafka" // nolint
@@ -15,25 +16,24 @@ type KafkaProducer struct {
 
 // NewKafkaProducer creates a new KafkaProducer with the given brokers
 func NewKafkaProducer(
-	broker string,
+	host string,
+	port int,
 	acks string,
 	compressionType string,
 	retries int,
-	deliveryTimeoutMS int,
 	lingerMS int,
 	requestTimeoutMS int,
 	enableIdempotence bool,
 
 ) (repository.KafkaProducer, error) {
 	conf := &kafka.ConfigMap{
-		"bootstrap.servers":   broker,
-		"acks":                acks,
-		"compression.type":    compressionType,
-		"retries":             retries,
-		"delivery.timeout.ms": deliveryTimeoutMS,
-		"linger.ms":           lingerMS,
-		"request.timeout.ms":  requestTimeoutMS,
-		"enable.idempotence":  enableIdempotence,
+		"bootstrap.servers":  fmt.Sprintf("%v:%d", host, port),
+		"acks":               acks,
+		"compression.type":   compressionType,
+		"retries":            retries,
+		"linger.ms":          lingerMS,
+		"request.timeout.ms": requestTimeoutMS,
+		"enable.idempotence": enableIdempotence,
 	}
 	producer, err := kafka.NewProducer(conf)
 	if err != nil {

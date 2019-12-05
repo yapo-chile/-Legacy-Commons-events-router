@@ -3,6 +3,7 @@ import:
 - package: github.com/Yapo/goutils
 - package: github.com/Yapo/logger
 - package: github.com/confluentinc/confluent-kafka-go
+  version: v1.1.0
   subpackages:
   - kafka
 - package: github.com/gorilla/context
@@ -14,7 +15,6 @@ import:
   subpackages:
   - mock
 - package: github.com/tidwall/gjson
-- package: gopkg.in/Shopify/sarama.v1
 - package: gopkg.in/gorilla/mux.v1
 testImport:
 - package: github.com/pact-foundation/pact-go

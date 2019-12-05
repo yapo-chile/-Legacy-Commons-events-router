@@ -15,6 +15,7 @@ type Producer interface {
 	Push(topic string, event domain.Event) error
 }
 
+// Router allows get topics from remote configuration for each incoming event
 type Router interface {
 	GetTopics(event domain.Event) ([]string, error)
 }

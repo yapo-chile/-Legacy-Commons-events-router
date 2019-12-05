@@ -49,7 +49,7 @@ func TestDispatchOK(t *testing.T) {
 		mock.AnythingOfType("domain.Event")).Return(nil)
 	mRouter.On("GetTopics",
 		mock.AnythingOfType("domain.Event")).Return([]string{""}, nil)
-	interactor := DisptachInteractor{
+	interactor := DispatchInteractor{
 		Producer: mProducer,
 		Router:   mRouter,
 		Logger:   mLogger,
@@ -73,7 +73,7 @@ func TestDispatchPushError(t *testing.T) {
 		mock.AnythingOfType("domain.Event")).Return([]string{""}, nil)
 	mLogger.On("LogErrorPushing", mock.AnythingOfType("domain.Event"),
 		mock.AnythingOfType("string"), mock.Anything)
-	interactor := DisptachInteractor{
+	interactor := DispatchInteractor{
 		Producer: mProducer,
 		Router:   mRouter,
 		Logger:   mLogger,
@@ -96,7 +96,7 @@ func TestDispatchGetTopicsError(t *testing.T) {
 		[]string{""}, fmt.Errorf("e"))
 	mLogger.On("LogErrorGettingTopics", mock.AnythingOfType("domain.Event"),
 		mock.Anything)
-	interactor := DisptachInteractor{
+	interactor := DispatchInteractor{
 		Producer: mProducer,
 		Router:   mRouter,
 		Logger:   mLogger,

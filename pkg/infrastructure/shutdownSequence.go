@@ -50,7 +50,6 @@ func (s *ShutdownSequence) Wait() {
 func (s *ShutdownSequence) close() {
 	for i := 0; i <= len(s.sequence); i++ {
 		if task := s.pop(); task != nil {
-			fmt.Printf("Trying to close: %T\n", task)
 			if err := task.Close(); err != nil {
 				fmt.Printf("Error closing the task of type %T: %+v\n", task, err)
 			}

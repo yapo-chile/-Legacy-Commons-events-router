@@ -4,21 +4,21 @@ import (
 	"github.mpi-internal.com/Yapo/events-router/pkg/domain"
 )
 
-// DisptachInteractor allows push events to producer using router
-type DisptachInteractor struct {
+// DispatchInteractor allows push events to producer using router
+type DispatchInteractor struct {
 	Producer Producer
 	Router   Router
-	Logger   DisptachInteractorLogger
+	Logger   DispatchInteractorLogger
 }
 
-// DisptachInteractorLogger logs events in DispatchInteractor
-type DisptachInteractorLogger interface {
+// DispatchInteractorLogger logs events in DispatchInteractor
+type DispatchInteractorLogger interface {
 	LogErrorGettingTopics(ev domain.Event, err error)
 	LogErrorPushing(ev domain.Event, topic string, err error)
 }
 
 // Dispatch pushes event to related topic defined by router
-func (i *DisptachInteractor) Dispatch(event domain.Event) error {
+func (i *DispatchInteractor) Dispatch(event domain.Event) error {
 	topics, err := i.Router.GetTopics(event)
 	if err != nil {
 		i.Logger.LogErrorGettingTopics(event, err)

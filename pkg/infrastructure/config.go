@@ -119,7 +119,6 @@ type KafkaProducerConf struct {
 	Acks              string `env:"ACKS" envDefault:"1"`
 	CompressionType   string `env:"COMPRESSION_TYPE" envDefault:"none"`
 	Retries           int    `env:"RETRIES" envDefault:"10"`
-	DeliveryTimeoutMS int    `env:"DELIVERY_TIMEOUT_MS" envDefault:"120000"`
 	LingerMS          int    `env:"LINGER_MS" envDefault:"0"`
 	RequestTimeoutMS  int    `env:"REQUEST_TIMEOUT_MS" envDefault:"30000"`
 	EnableIdempotence bool   `env:"ENABLE_IDEMPOTENCE" envDefault:"false"`

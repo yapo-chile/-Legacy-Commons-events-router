@@ -64,12 +64,11 @@ func main() {
 	}
 
 	kafkaProducer, err := infrastructure.NewKafkaProducer(
-		fmt.Sprintf("%s:%d", conf.KafkaProducerConf.Host,
-			conf.KafkaProducerConf.Port),
+		conf.KafkaProducerConf.Host,
+		conf.KafkaProducerConf.Port,
 		conf.KafkaProducerConf.Acks,
 		conf.KafkaProducerConf.CompressionType,
 		conf.KafkaProducerConf.Retries,
-		conf.KafkaProducerConf.DeliveryTimeoutMS,
 		conf.KafkaProducerConf.LingerMS,
 		conf.KafkaProducerConf.RequestTimeoutMS,
 		conf.KafkaProducerConf.EnableIdempotence,
@@ -98,7 +97,7 @@ func main() {
 	}
 	shutdownSequence.Push(kafkaConsumer)
 
-	interactor := &usecases.DisptachInteractor{
+	interactor := &usecases.DispatchInteractor{
 		Producer: repository.MakeProducer(kafkaProducer),
 		Router:   repository.MakeRouter(remoteConfig),
 		Logger:   loggers.MakeDispatchInteractorlogger(logger),

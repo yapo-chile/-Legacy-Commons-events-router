@@ -25,8 +25,6 @@ type KafkaConsumer struct {
 // User: user to connect to kafka queue
 // Password: password to connect to kafka queue
 // GroupID: unique id to identify a consumer
-// SecurityMechanism: mechanism used by kafka (ex. SCRAM-SHA-256)
-// SecurityProtocol: protocol to connect with security parameters (ex. sasl_ssl)
 // OffsetReset: in which offset the consumer start reading (ex. earliest)
 // RebalanceEnable: flag to rebalance topic and partitions to a consumer
 // ChannelEnable: flag to read messages and events from the Events channel (true) or Poll(false)

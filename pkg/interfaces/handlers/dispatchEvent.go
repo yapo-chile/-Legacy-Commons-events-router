@@ -17,22 +17,22 @@ type DispatchEventLogger interface {
 	LogSuccess(ev domain.Event)
 }
 
-// DisptachInteractor allows push events to producer using router
-type DisptachInteractor interface {
+// DispatchInteractor allows push events to producer using router
+type DispatchInteractor interface {
 	Dispatch(event domain.Event) error
 }
 
 // DispatchEventHandler struct that represents the transfer from the reader to the message sender
 type DispatchEventHandler struct {
 	consumer   repository.KafkaConsumer
-	interactor DisptachInteractor
+	interactor DispatchInteractor
 	logger     DispatchEventLogger
 }
 
 // NewDispatchEventHandler initiallize a DispatchEventhandler
 func NewDispatchEventHandler(
 	consumer repository.KafkaConsumer,
-	interactor DisptachInteractor,
+	interactor DispatchInteractor,
 	logger DispatchEventLogger,
 ) *DispatchEventHandler {
 	return &DispatchEventHandler{
