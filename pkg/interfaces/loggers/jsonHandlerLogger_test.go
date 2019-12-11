@@ -19,4 +19,5 @@ func TestJSONHandlerLogger(t *testing.T) {
 	l.LogRequestStart(r)
 	l.LogRequestEnd(r, &goutils.Response{})
 	l.LogRequestPanic(r, &goutils.Response{}, nil)
+	m.AssertExpectations(t)
 }

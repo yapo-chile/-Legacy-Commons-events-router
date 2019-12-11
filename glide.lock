@@ -1,10 +1,14 @@
-hash: c8030d9369802ac0d03fe574aef797dde7d986700538bdfef6118b92d94e0359
-updated: 2019-10-18T10:33:12.219508-03:00
+hash: 283f1d7eb09615590b2dccf123133126553bd512c7c4dd4deed63a577faf718b
+updated: 2019-12-06T10:59:20.622543-03:00
 imports:
 - name: github.com/beorn7/perks
   version: 37c8de3658fcb183f997c4e13e8337516ab753e6
   subpackages:
   - quantile
+- name: github.com/confluentinc/confluent-kafka-go
+  version: f696f02dcbb04d95b103c5b848bb15f749a996f7
+  subpackages:
+  - kafka
 - name: github.com/davecgh/go-spew
   version: d8f796af33cc11cb798c1aaeb27a4ebc5099927d
   subpackages:
@@ -19,11 +23,6 @@ imports:
   version: c182affec369e30f25d3eb8cd8a478dee585ae7d
   subpackages:
   - pbutil
-- name: github.com/pact-foundation/pact-go
-  version: 5a1cefb77149fae263f80cb9c84a781a319e9b92
-  subpackages:
-  - dsl
-  - types
 - name: github.com/pmezard/go-difflib
   version: 5d4384ee4fb2527b0a1256a821ebfc92f91efefc
   subpackages:
@@ -49,8 +48,6 @@ imports:
   subpackages:
   - internal/fs
   - internal/util
-- name: github.com/sony/gobreaker
-  version: 21dbfda1fc5e89b91bd0c835a91c31fe4d461e88
 - name: github.com/stretchr/objx
   version: 35313a95ee26395aa17d366c71a2ccf788fa69b6
 - name: github.com/stretchr/testify
@@ -76,4 +73,12 @@ imports:
   version: 00bdffe0f3c77e27d2cf6f5c70232a2d3e4d9c15
 - name: gopkg.in/yaml.v2
   version: f221b8435cfb71e54062f6c6e99e9ade30b124d5
-testImports: []
+testImports:
+- name: github.com/hashicorp/logutils
+  version: 0dc08b1671f34c4250ce212759ebd880f743d883
+- name: github.com/pact-foundation/pact-go
+  version: 5a1cefb77149fae263f80cb9c84a781a319e9b92
+  subpackages:
+  - dsl
+  - types
+  - utils

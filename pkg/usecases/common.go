@@ -1,29 +1,21 @@
 package usecases
 
+import (
+	"github.mpi-internal.com/Yapo/events-router/pkg/domain"
+)
+
 // GomsRepository interface that represents all the methods available to
 // interact with events-router microservice
 type GomsRepository interface {
 	GetHealthcheck() (string, error)
 }
 
-// UserBasicData is the structure that contains the basic user data
-type UserBasicData struct {
-	Name    string
-	Phone   string
-	Gender  string
-	Country string
-	Region  string
-	Commune string
+// Producer represents a handler that interacts with the producer infrastructure
+type Producer interface {
+	Push(topic string, event domain.Event) error
 }
 
-// UserRepository defines the methods that a User repository should have
-type UserRepository interface {
-	// GetUserData gets the user data based on his email
-	GetUserData(email string) (UserBasicData, error)
-}
-
-// UserProfileRepository defines the methods that a User Profile repository should have
-type UserProfileRepository interface {
-	// GetUserData gets the user data based on his email
-	GetUserProfileData(email string) (UserBasicData, error)
+// Router allows get topics from remote configuration for each incoming event
+type Router interface {
+	GetTopics(event domain.Event) ([]string, error)
 }

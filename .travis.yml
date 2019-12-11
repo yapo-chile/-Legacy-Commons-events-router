@@ -27,7 +27,6 @@ install:
 script:
   # Generate coverage and checkstyle report
   - make test
-  - make pact-test
   - make docker-build
 
 after_failure:
