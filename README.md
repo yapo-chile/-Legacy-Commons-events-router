@@ -8,7 +8,12 @@
 [![Badger](https://badger.spt-engprod-pro.mpi-internal.com/badge/quality_index/Yapo/events-router)](https://databulous.spt-engprod-pro.mpi-internal.com/quality/repo/Yapo/events-router)
 [![Badger](https://badger.spt-engprod-pro.mpi-internal.com/badge/engprod/Yapo/events-router)](https://github.mpi-internal.com/spt-engprod/badger)
 <!-- Badger end badges -->
+Goal: Assign to each blocket event a related kafka topic.
 
+Confluence: [Events+Router](https://confluence.mpi-internal.com/display/YAPO/Events+Router)
+### Diagram
+
+![flow](https://confluence.mpi-internal.com/rest/gliffy/1.0/embeddedDiagrams/6a5a0e37-82a3-4711-baf4-3dbee2ded96b.png)
 
 ## How to run events-router
 
