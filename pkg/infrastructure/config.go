@@ -61,7 +61,7 @@ type GomsClientConf struct {
 // EtcdConf configure how to read configuration from remote Etcd service
 type EtcdConf struct {
 	Host   string `env:"HOST" envDefault:"http://lb:2397"`
-	Router string `env:"LAST_UPDATE" envDefault:"/yapo-events/router/conf.json"`
+	Router string `env:"ROUTER" envDefault:"/yapo-events/router/conf.json"`
 	Prefix string `env:"PREFIX" envDefault:"/v2/keys"`
 }
 
