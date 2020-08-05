@@ -52,7 +52,4 @@ done
 echoTitle "Installing Glide dependencies"
 glide install
 
-echoTitle "Installing project dependencies"
-GO111MODULE=on go mod tidy
-
 set +e
