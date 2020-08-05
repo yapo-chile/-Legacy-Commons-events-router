@@ -5,7 +5,7 @@ services:
   - docker
 
 go:
-  - "1.13"
+  - "1.11"
 
 # This build should not be triggered by tags
 if: tags IS blank
