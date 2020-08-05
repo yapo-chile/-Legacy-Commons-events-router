@@ -41,7 +41,7 @@ if [ "$(id -nu)" != "root" ]; then
 fi
 
 echoTitle "Installing the sneaky golangci-lint"
-GO111MODULE=on go get -v github.com/golangci/golangci-lint/cmd/golangci-lint@v1.26.0
+GO111MODULE=on go get -v github.com/golangci/golangci-lint/cmd/golangci-lint@v1.20.0
 
 echoTitle "Installing missing tools"
 # Install missed tools
