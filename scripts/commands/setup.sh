@@ -14,7 +14,6 @@ tools=(
     github.com/axw/gocov/gocov
     github.com/AlekSi/gocov-xml
     github.com/Masterminds/glide
-    github.com/golangci/golangci-lint/cmd/golangci-lint
 )
 
  # install librdkafka
@@ -28,6 +27,9 @@ if [ "$(id -nu)" != "root" ]; then
     cd ..
     rm -rf librdkafka
 fi
+
+echoTitle "Installing the sneaky golangci-lint"
+GO111MODULE=on go get -v github.com/golangci/golangci-lint/cmd/golangci-lint@v1.26.0
 
 echoTitle "Installing missing tools"
 # Install missed tools
