@@ -25,7 +25,7 @@ secrets:
 
 env:	
   LOGGER_LOG_LEVEL: 1	
-  ETCD_HOST: http://etcd-server.yapo.cl
+  ETCD_HOST: http://etcd-server:2379
 
 nameOverride: ""
 fullnameOverride: ""
