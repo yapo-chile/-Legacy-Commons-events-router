@@ -1,33 +1,35 @@
 dist: trusty
 language: go
 
-# Only current version is considered given limitations to publish more than one
-# report per build to Quality Gates.
+services:
+  - docker
+
 go:
   - "1.11"
 
 # This build should not be triggered by tags
 if: tags IS blank
 
-# Anything in install that returns a nonzero exit code will
-# flunk the build and immediately stop. It's sorta like having
-# set -e enabled in bash.
+env:
+  global:
+    - BRANCH=$([ ${TRAVIS_BRANCH} == master ] && echo latest || echo ${TRAVIS_BRANCH})
+
+before_install:
+  - configure_jfrog_client
+  - helm init --client-only
+
 install:
-  # run the initial setup
   # Installing pact-go dependencies
   - curl -LO https://github.com/pact-foundation/pact-ruby-standalone/releases/download/v1.70.2/pact-1.70.2-linux-x86_64.tar.gz
   - tar xzf pact-1.70.2-linux-x86_64.tar.gz -C $HOME --strip-components 1
   - export PATH=$PATH:$HOME/pact/bin
   - make setup    
-  # Export the current branch according to travis (including pr builds) 
-  - export BUILD_BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
 
 # script always run to completion (set +e). All of these code checks are must haves
 # in a modern Go project.
 script:
   # Generate coverage and checkstyle report
   - make test
-  - make docker-build
 
 after_failure:
   - reports-publisher
@@ -37,10 +39,13 @@ after_success:
 
 deploy:
   - provider: script
-    script: make docker-publish
+    script: make docker-build docker-publish
     on:
       all_branches: true
+      condition: $TRAVIS_PULL_REQUEST = false
   - provider: script
-    script: make deploy-rancher    
+    script: make helm-publish
     on:
-      tags: true
+      all_branches: true
+      condition: $TRAVIS_PULL_REQUEST = false
+

@@ -1,15 +1,9 @@
 #!/usr/bin/env bash
-export UNAMESTR = $(uname)
 export GO_FILES = $(shell find . -iname '*.go' -type f | grep -v vendor | grep -v pact) # All the .go files, excluding vendor/ and pact/
 GENPORTOFF?=0
 genport = $(shell expr ${GENPORTOFF} + \( $(shell id -u) - \( $(shell id -u) / 100 \) \* 100 \) \* 200 + 30100 + $(1))
 
-# BRANCH info from travis
-export BUILD_BRANCH=$(shell if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then echo "${TRAVIS_BRANCH}" | sed 's/@.*//'; else echo "${TRAVIS_PULL_REQUEST_BRANCH}"; fi)
-
 # GIT variables
-export BRANCH=$(shell git branch | sed -n 's/^\* //p')
-export GIT_BRANCH=$(shell if [ -n "${BUILD_BRANCH}" ]; then echo "${BUILD_BRANCH}"; else echo "${BRANCH}"; fi;)
 export GIT_COMMIT=$(shell git rev-parse HEAD)
 export GIT_COMMIT_DATE=$(shell TZ="America/Santiago" git show --quiet --date='format-local:%d-%m-%Y_%H:%M:%S' --format="%cd")
 export BUILD_CREATOR=$(shell git log --format=format:%ae | head -n 1)
@@ -21,8 +15,6 @@ export REPORT_ARTIFACTS=reports
 # APP variables
 # This variables are for the use of your microservice. This variables must be updated each time you are creating a new microservice
 export APPNAME=events-router
-export APPFOLDER=events-router
-export YO=`whoami`
 export SERVICE_PORT=8080
 export SERVICE_HOST=:localhost
 export SERVER_ROOT=${PWD}
@@ -62,10 +54,6 @@ export CIRCUIT_BREAKER_CONSECUTIVE_FAILURE=2
 
 # User config
 export PROFILE_HOST=http://10.15.1.78:7987
-
-# Rancher Deploy
-export RANCHER_DEPLOY_IMAGE=containers.mpi-internal.com/yapo/rancher-deploy:0.0.40
-export RANCHER_ENV_REPO=Yapo/rancher-deploy-envs
 
 #Pact broker
 export PACT_BROKER_HOST=http://3.229.36.112

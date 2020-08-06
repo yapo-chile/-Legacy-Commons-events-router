@@ -2,10 +2,9 @@ FROM golang:1.11-alpine AS gobuilder
 
 RUN apk add --update --no-cache alpine-sdk bash python librdkafka-dev=1.0.1-r1 librdkafka=1.0.1-r1
 
-ARG APPFOLDER
 ARG APPNAME
 
-WORKDIR /go/src/github.mpi-internal.com/Yapo/${APPFOLDER}
+WORKDIR /go/src/github.mpi-internal.com/Yapo/${APPNAME}
 ADD ./ .
 RUN make setup
 RUN CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -v -o /app.linux cmd/${APPNAME}/main.go

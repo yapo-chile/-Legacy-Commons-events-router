@@ -10,7 +10,6 @@ vendor/*
 pact/bin
 pact/log
 app.docker
-events-router
 events-router.err
 events-router.out
 daemon.err

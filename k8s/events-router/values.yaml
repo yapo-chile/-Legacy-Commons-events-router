@@ -1,0 +1,56 @@
+# Default values for events-router.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+globals:
+  env: reg
+
+image:
+  repository: containers.mpi-internal.com/yapo/events-router
+  tag: ""
+  pullPolicy: Always
+  pullSecret: containers-mpi-internal-com
+
+secrets:
+  resource-kafka-consumer-events-router:
+    KAFKA_CONSUMER_HOST: HOST
+    KAFKA_CONSUMER_PORT: PORT
+    KAFKA_CONSUMER_TOPICS: TOPIC
+    KAFKA_CONSUMER_GROUP_ID: GROUP_ID
+  resource-kafka-producer-events-router:
+    KAFKA_PRODUCER_HOST: HOST
+    KAFKA_PRODUCER_PORT: PORT
+
+env:	
+  LOGGER_LOG_LEVEL: 1	
+  ETCD_HOST: http://etcd-server:2379
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 8080
+  prometheus_port: 8877
+
+prometheus:
+  enabled: "false"
+
+healthcheck:
+  path: /api/v1/healthcheck
+  readiness:
+    initialDelaySeconds: 5
+    periodSeconds: 60
+  liveness:
+    initialDelaySeconds: 5
+    periodSeconds: 3600
+
+ingress:
+  enabled: false
+
+resources: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}
