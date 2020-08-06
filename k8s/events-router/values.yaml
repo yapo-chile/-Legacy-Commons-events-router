@@ -33,6 +33,7 @@ fullnameOverride: ""
 service:
   type: ClusterIP
   port: 8080
+  prometheus_port: 8877
 
 prometheus:
   enabled: "false"
